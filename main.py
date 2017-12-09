@@ -25,6 +25,7 @@ def drawBox(screen, Ht, Lt, d, offset, last):
             screen[y][x] = c
     yt = ym - w - 1
     xt = xm + w + 1
+    u = yt+h+1
     for y in range(yt, ym):
         xs = offset + w + 1 - (y - yt)
         xf = xs + l + 1
@@ -34,6 +35,9 @@ def drawBox(screen, Ht, Lt, d, offset, last):
             else:
                 c = '/' if x == xs or x == xf else ' '
             screen[y][x] = c
+        for x in range(offset, xs):
+            if y>=u and offset>0:
+                screen[y][x]='_'
     for y in range(yt+1, yt+1+h):
         screen[y][xt-1] = '|'
     for y in range(yt+h+1, Ht):
