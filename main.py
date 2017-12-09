@@ -1,7 +1,7 @@
 import json
 import click
 
-def printScreen(screen, Ht, Lt):
+def pr(screen, Ht, Lt):
     for y in range(Ht):
         for x in range(Lt):
             print(screen[y][x], end="")
@@ -11,8 +11,6 @@ def drawBox(screen, Ht, Lt, d, offset, last):
     l=d[0]
     w=d[1]
     h=d[2]
-
-    # Front face
     ym = Ht-1-h-1
     xm = offset+l+2
     for y in range(ym, Ht):
@@ -25,28 +23,19 @@ def drawBox(screen, Ht, Lt, d, offset, last):
                 c = '|' if x == offset or x == xm - 1 else ' '
 
             screen[y][x] = c
-
-    # Top face
     yt = ym - w - 1
     xt = xm + w + 1
     for y in range(yt, ym):
         xs = offset + w + 1 - (y - yt)
         xf = xs + l + 1
-        for x in range(offset, xt):
+        for x in range(xs, xf+1):
             if y == yt:
-                if x >= xs:
-                    c = '+' if x == xs or x == xf else '-'
-                else:
-                    c = ' '
+                c = '+' if x == xs or x == xf else '-'
             else:
                 c = '/' if x == xs or x == xf else ' '
             screen[y][x] = c
-
-    # back height
     for y in range(yt+1, yt+1+h):
         screen[y][xt-1] = '|'
-
-    #bottom and belt
     for y in range(yt+h+1, Ht):
         xs = xm - 1 + w + 1 - (y - (yt + h + 1))
         xf = xs + 1 + (y - (yt + h + 1))
@@ -59,10 +48,7 @@ def drawBox(screen, Ht, Lt, d, offset, last):
                     continue
                 c = '/' if x == xs else ('_' if not last else ' ')
             screen[y][x] = c
-
-
     return l + w + 4 + offset
-
 @click.command()
 @click.option('--dims')
 def main(dims):
@@ -72,15 +58,15 @@ def main(dims):
     Lt = sum([d[0] for d in ds]) + n*w + n*4 - 1
     Ht = max([d[2] for d in ds]) + 2 + w + 1
 
-    #print(Lt)
-    #print(Ht)
-
+    print(w)
+    print(n)
+    print(Lt)
+    print(Ht)
     screen = [[' ' for x in range(Lt)] for y in range(Ht)]
     offset = 0
     for i,d in enumerate(ds):
         offset = drawBox(screen, Ht, Lt, d, offset, i == n-1)
-    printScreen(screen, Ht, Lt)
-
+    pr(screen, Ht, Lt)
 
 if __name__ == '__main__':
     main()
