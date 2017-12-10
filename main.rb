@@ -1,13 +1,13 @@
 require 'json'
-def B(p,q,l)a=p+l+1;(p..a).each{|x|G[q][x]=x==p||x==a ? "+":"-"}end
-def C(p,q,h)a=q+h+1;(q..a).each{|y|G[y][p]=y==q||y==a ? "+":"|"}end
-def D(p,q)a=q+W+1;(q..a).each{|y|G[y][p-y+q]=y==q||y==a ? "+":"/"}end
-def E(d,o,z)l=d[0];h=d[2];a=H-h-2;b=o+l+1;c=a-W-1;e=b+W+1;u=c+h+1;f=o+W;r=l+f+4;B(o,H-1,l);B(o,a,l);B(f+1,c,l);C(o,a,h);C(b,a,h);C(e,c,h);D(f+1,c);D(e,c);D(e,u);if !z then(u..u+W+1).each{|y|(e-y+u+1..r-1).each{|x|G[y][x]="_"}}end;if o>0 then(c..c+W+1).select{|y|y>=u}.each{|y|(o..f-y+c).each{|x|G[y][x]="_"}}end;r;end
-F=JSON.parse(ARGV[0])
-W=F[0][1]
-n=F.size
-L=F.map{|d|d[0]}.sum+n*W+n*4-1
-H=F.map{|d|d[2]}.max+3+W
-G=Array.new(H){Array.new(L){" "}};o=0
-F.each_with_index{|d,i|o=E d,o,i==n-1}
-G.each{|y|y.each{|x|putc x};putc"\n"}
+def I(p,q)x=p;while G[q][x]==" ";G[q][x]="_";x-=1;end;end
+def C(p,q,h,f,b=nil)a=q+h+1;(q..a).each{|y|G[f==1 ?y:p][f==1 ?p:y]=y==q||y==a ? "+":f==1 ? "|":"-";if y>=U&&b;I(p-1,y)end}end
+def D(p,q,b=nil)a=q+W+1;(q..a).each{|y|G[y][p-y+q]=y==q||y==a ? "+":"/";if y>=U&&b;I(p-y+q-1,y)end}end
+def E(d,o)l=d[0];h=d[2];a=H-h-2;b=o+l+1;c=a-W-1;e=b+W+1;f=o+W;r=l+f+4;C(H-1,o,l,0);C(a,o,l,0);C(c,f+1,l,0);C(o,a,h,1,o>0);C(b,a,h,1);C(e,c,h,1);D(f+1,c,o>0);D(e,c);D(e,U);r;end
+f=JSON.parse(ARGV[0])
+W=f[0][1]
+n=f.size
+H=f.map{|d|d[2]}.max+3+W
+U=H-2-W
+G=Array.new(H){Array.new(f.map{|d|d[0]}.sum+n*W+n*4-1){" "}};o=0
+f.each{|d|o=E d,o}
+puts G.map{|y|y.join()}
