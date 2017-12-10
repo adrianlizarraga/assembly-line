@@ -5,6 +5,6 @@ w=f[0][1]
 n=f.size
 z=f.map{|d|d[2]}.max+3+w
 $u=z-2-w
-x=Array;$s=x.new(z){x.new(f.map{|d|d[0]}.sum+n*w+n*4-1){" "}};o=0
+x=Array;$s=x.new(z){x.new(f.map{|d|d[0]}.sum+n*w+n*4){" "}};o=0
 f.each{|d|o=E d,o,w,z}
 puts $s.map{|y|y.join()}end
